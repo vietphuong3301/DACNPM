@@ -1,0 +1,98 @@
+﻿@model DACNPM.Models.User
+@{
+    ViewData["Title"] = "Profile";
+
+}
+<div class="section mt-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-user me-1"></i>
+                        <strong>@ViewBag.Title</strong>
+                    </div>
+                    <form asp-controller="Users" asp-action="ChangeInfo" method="post">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="@Model.UserID" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" asp-for="FirstName" />
+                                            <label asp-for="FirstName"></label>
+                                        </div>
+                                        <span asp-validation-for="FirstName" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" asp-for="LastName" />
+                                            <label asp-for="LastName"></label>
+                                        </div>
+                                        <span asp-validation-for="LastName" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="email" asp-for="Email" />
+                                        <label asp-for="Email"></label>
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger mb-3"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="password" asp-for="Password" value="@Model.Password" />
+                                        <label asp-for="Password"></label>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger mb-3"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3">
+                                    <div class="form-floating">
+                                        <input class="form-control" type="text" asp-for="FullAddress" />
+                                        <label asp-for="FullAddress"></label>
+                                    </div>
+                                    <span asp-validation-for="FullAddress" class="text-danger mb-3"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" asp-for="Phone" />
+                                            <label asp-for="Phone"></label>
+                                        </div>
+                                        <span asp-validation-for="Phone" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <div class="form-floating">
+                                            <select asp-for="RoleID" class="form-control" asp-items="ViewBag.RoleID"></select>
+                                            <label>Role</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <input type="submit" value="Update Profile" class="btn btn-success" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

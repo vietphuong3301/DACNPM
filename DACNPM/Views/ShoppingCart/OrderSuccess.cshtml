@@ -1,0 +1,94 @@
+﻿@model DACNPM.Models.Order
+@{
+    List<OrderDetails> orderDetails = ViewBag.OrderDetails;
+}
+@{
+    ViewData["Title"] = "Place Order Successfully!";
+}
+<div class="section">
+    <div class="container">
+        <div class="section-title text-center mt-5">
+            <h3 class="title">@ViewBag.Title</h3>
+        </div>
+        <div class="row">
+            <div class=" col-md-5 offset-2">
+                <div class="order-details mt-5">
+                    <div class="section-title text-center">
+                        <h5 class="title">Information</h5>
+                    </div>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Order:</strong></dt>
+                        <dd class="col-sm-5 text-end">#@Model.OrderID</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Name:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.FullName</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Email:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Email</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Address:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Address</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Note:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Note</dd>
+                    </dl>
+                    <div class="section-title text-center">
+                        <h3 class="title text-center text-danger">THANK YOU</h3>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-7 offset-2">
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Items</h3>
+                    </div>
+                    <div class="row mt-5">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (var item in orderDetails)
+                                    {
+
+                                        <tr>
+                                            <td><img src="@item.Product!.ProductImageURL" alt="Image" class="img-fluid" style="max-width: 60px;"></td>
+                                            <td>@item.Product!.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.SubPrice.ToString("c")</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Total: @orderDetails.Sum(od => od.SubPrice).ToString("c")</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = $("#ProductImageURL").val();
+        })
+        $("#ProductImageURL").on("change", function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = $(this).val();
+        })
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

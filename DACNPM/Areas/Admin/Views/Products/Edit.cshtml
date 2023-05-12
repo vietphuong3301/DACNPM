@@ -1,0 +1,100 @@
+﻿@model DACNPM.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="card mb-4 mt-5">
+    <div class="card-header">
+        <i class="fas fa-shopping-cart"></i>
+        <strong>@ViewBag.Title</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 offset-1">
+                <form asp-controller="Products" asp-action="Edit" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-5">
+                        <input type="hidden" asp-for="ProductID" />
+                        <div class="form-group mb-3">
+                            <label asp-for="ProductName" class="control-label"></label>
+                            <input asp-for="ProductName" class="form-control" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="Price" class="control-label"></label>
+                                    <input asp-for="Price" class="form-control" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="Stock" class="control-label"></label>
+                                    <input type="number" asp-for="Stock" class="form-control" />
+                                    <span asp-validation-for="Stock" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="CategoryID" class="control-label">Category Name</label>
+                                    <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="TypeID" class="control-label">Type</label>
+                                    <select asp-for="TypeID" class="form-control" asp-items="ViewBag.TypeID"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-secondary" asp-controller="Products" asp-action="Index">Show All</a>
+                            <input type="submit" value="Update" class="btn btn-success float-end" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group mb-3">
+                            <label asp-for="ProductImageURL" class="control-label"></label>
+                            <input asp-for="ProductImageURL" class="form-control" />
+                            <span asp-validation-for="ProductImageURL" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <img id="ProductImagePreview" style="max-width: 250px" />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = $("#ProductImageURL").val();
+        })
+        $("#ProductImageURL").on("change", function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = $(this).val();
+        })
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

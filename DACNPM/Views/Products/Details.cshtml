@@ -1,0 +1,221 @@
+﻿@model Product
+@using Microsoft.AspNetCore.Http
+@using DACNPM.Data
+@using DACNPM.Utils
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+
+    var wishlist = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("WishList");
+
+}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-action="Index" asp-route-id="@Model.TypeID">@Model.ProductType!.Type</a></li>
+                    <li class="active">@Model.ProductName</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5">
+                @*<div class="col-md-5 col-md-push-2">*@
+
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img src="@Model.ProductImageURL" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">@Model.ProductName</h2>
+                    <div>
+                        <div class="product-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        @*<a class="review-link" href="#">10 Review(s) | Add your review</a>*@
+                    </div>
+                    <div>
+                        @*<h3 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h3>*@
+                        <h3 class="product-price">$@Model.Price</h3>
+                        @{
+                            if (Model.Stock > 0)
+                            {
+
+                                <span class="product-available">In Stock</span>
+                            }
+                            else
+                            {
+                                <span class="product-available">Out of Stock</span>
+                            }
+                        }
+                    </div>
+                    <p>@Model.Description</p>
+                    <form asp-controller="ShoppingCart" asp-action="AddtoCart">
+                        <input type="hidden" name="id" value="@Model.ProductID" />
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    <input type="number" min="1" value="1" name="amount" />
+                                </div>
+
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        </div>
+                    </form>
+                    @{ 
+                        var message = "Add to Wishlist";
+                        if (wishlist != null)
+                        {
+                            var check = wishlist.SingleOrDefault(p => p.ProductID == Model.ProductID);
+                            if (check != null)
+                            {
+                                message = "Remove from Wishlist";
+                            }
+                        }
+                        <ul class="product-btns">
+                            <li><a asp-controller="Products" asp-action="AddtoWishlist" asp-route-id="@Model.ProductID"><i class="fa fa-heart-o"></i> @message</a></li>
+                        </ul>
+                    }
+
+                    <ul class="product-links">
+                        <li>Category:</li>
+                        <li><a asp-action="Index" asp-route-id="@Model.CategoryID">@Model.Category!.CategoryName</a></li>
+                        <li><a asp-action="Index" asp-route-id="@Model.TypeID">@Model.ProductType!.Type</a></li>
+                    </ul>
+
+                    <ul class="product-links">
+                        <li>Share:</li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- /Product details -->
+            <!-- Product tab -->
+            <div class="col-md-12">
+                <div id="product-tab">
+                    <!-- product tab nav -->
+                    <ul class="tab-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+                    </ul>
+                    <!-- /product tab nav -->
+                    <!-- product tab content -->
+                    <div class="tab-content">
+                        <!-- tab1  -->
+                        <div id="tab1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>@Model.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tab1  -->
+                    </div>
+                    <!-- /product tab content  -->
+                </div>
+            </div>
+            <!-- /product tab -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+<!-- Section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="section-title text-center">
+                    <h3 class="title">Related Products</h3>
+                </div>
+            </div>
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="products-tabs">
+                        <!-- tab -->
+                        <div id="tab2" class="tab-pane fade in active">
+                            <div class="products-slick" data-nav="#slick-nav-2">
+                                @{
+                                    foreach (var item in ViewBag.RelatedProducts)
+                                    {
+                                        <!-- product -->
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                                <!--<div class="product-label">-->
+                                                @*<span class="sale">-30%</span>*@
+                                                <!--<span class="new">BEST SELLER</span>
+                                                </div>-->
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category">@item.Category!.CategoryName</p>
+                                                <h3 class="product-name"><a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductID" asp-route-idParam="@item.CategoryID">@item.ProductName</a></h3>
+                                                @*<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>*@
+                                                <h4 class="product-price">$@item.Price</h4>
+
+                                                <div class="product-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="product-btns">
+                                                    <a class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></a>
+                                                </div>
+                                            </div>
+                                            <div class="add-to-cart">
+                                                <a class="add-to-cart-btn" asp-controller="ShoppingCart" asp-action="AddtoCart" asp-route-id="@item.ProductID"><i class="fa fa-shopping-cart"></i> add to cart</a>
+                                            </div>
+                                        </div>
+                                        <!-- /product -->
+
+                                    }
+                                }
+                            </div>
+                            <div id="slick-nav-2" class="products-slick-nav"></div>
+                        </div>
+                        <!-- /tab -->
+                    </div>
+                </div>
+            </div>
+            <!-- /Products tab & slick -->
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Section -->

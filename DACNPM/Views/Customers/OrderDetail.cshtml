@@ -1,0 +1,104 @@
+﻿@model DACNPM.Models.Order
+@{
+    List<OrderDetails> orderDetails = ViewBag.OrderDetails;
+
+}
+<div class="section mt-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h5 class="title">Information</h5>
+                    </div>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Name:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.FullName</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Email:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Email</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Address:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Address</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5"><strong>Phone:</strong></dt>
+                        <dd class="col-sm-5 text-end">@Model.Phone</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5">Ordered Date:</dt>
+                        <dd class="col-sm-5 text-end">@Model.CreatedAt.ToString()</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5">Note:</dt>
+                        <dd class="col-sm-5 text-end">@Model.Note</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-5">Status:</dt>
+                        @{
+                            if (Model.Status == 0)
+                            {
+
+                                <dd class="col-sm-5 text-end text-uppercase">Pending</dd>
+                            }
+                            else if (Model.Status == 1)
+                            {
+                                <dd class="col-sm-5 text-end text-uppercase">Confirmed</dd>
+                            }
+                            else
+                            {
+                                <dd class="col-sm-5 text-end text-uppercase">Cancelled</dd>
+                            }
+                        }
+                    </dl>
+
+                </div>
+            </div>
+            <div class="col-md-7 offset-2">
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Order: #@Model.OrderID</h3>
+                    </div>
+                    <div class="row mt-5">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    foreach (var item in orderDetails)
+                                    {
+
+                                        <tr>
+                                            <td>#@item.OrderDetailID</td>
+                                            <td>@item.Product!.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.SubPrice.ToString("c")</td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Total: @orderDetails.Sum(od => od.SubPrice).ToString("c")</h3>
+                    @*<div class="order-summary">
+                            <div></div>
+                        </div>*@
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@model DACNPM.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+
+}
+
+<div class="card mb-4 mt-5">
+    <div class="card-header">
+        <i class="fas fa-user me-1"></i>
+        <strong>@ViewBag.Title</strong>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-12 offset-1">
+                <form asp-controller="Users" asp-action="Edit" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserID" value="@Model.UserID" />
+                    <div class="col-md-5">
+                        <div class="form-group mb-3">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-secondary" asp-controller="Users" asp-action="Index">Show All</a>
+                            <input type="submit" value="Update" class="btn btn-success float-end" />
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group mb-3">
+                            <label asp-for="Phone" class="control-label"></label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="FullAddress" class="control-label"></label>
+                            <input asp-for="FullAddress" class="form-control" />
+                            <span asp-validation-for="FullAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="control-label">Role</label>
+                            <select asp-for="RoleID" class="form-control" asp-items="ViewBag.RoleID"></select>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

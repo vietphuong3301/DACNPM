@@ -1,0 +1,94 @@
+﻿@model X.PagedList.IPagedList<DACNPM.Models.Product>
+@using X.PagedList.Mvc.Core;
+@using Microsoft.AspNetCore.Http
+@using DACNPM.Data
+@using DACNPM.Utils
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "WishList";
+    var wishlist = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("WishList");
+}
+
+<div class="section">
+    <div class="container">
+        <div class="order-details mt-5">
+            <div class="section-title text-center">
+                <h3 class="title">@ViewBag.Title</h3>
+            </div>
+            @{
+                if (Model.Count > 0)
+                {
+                    <!-- row -->
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-sm btn-block ">Back to home</a>
+                            </div>
+                        </div>
+                        <!-- STORE -->
+                        <div id="store" class="col-md-12">
+                            <!--<!-- store top filter -->
+                            <div class="store-filter clearfix">
+                            </div>
+                            <!-- /store top filter -->
+                            <!-- store products -->
+                            <div class="row">
+                                <!-- product -->
+                                @foreach (var item in Model)
+                                {
+                                    var message = "Add to Wishlist";
+                                    if (wishlist != null)
+                                    {
+
+                                        var check = wishlist.SingleOrDefault(p => p.ProductID == item.ProductID);
+                                        if (check != null)
+                                        {
+                                            message = "Remove from Wishlist";
+                                        }
+                                    }
+                                    <div class="col-md-3 col-xs-4">
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                            </div>
+                                            <div class="product-body">
+                                                <p class="product-category">@item.Category!.CategoryName</p>
+                                                <h3 class="product-name"><a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductID" asp-route-idParam="@item.CategoryID">@item.ProductName</a></h3>
+                                                <h4 class="product-price">$@item.Price</h4>
+                                                <div class="product-btns">
+                                                    <a asp-controller="Products" asp-action="AddtoWishlist" asp-route-id="@item.ProductID" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">@message</span></a>
+                                                </div>
+                                            </div>
+                                            <div class="add-to-cart">
+                                                <a class="add-to-cart-btn" asp-controller="ShoppingCart" asp-action="AddtoCart" asp-route-id="@item.ProductID"><i class="fa fa-shopping-cart"></i> add to cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <!-- /product -->
+
+                            </div>
+                            <!-- /store products -->
+                            <!-- store bottom filter -->
+                            <div class="store-filter clearfix">
+                                @Html.PagedListPager(Model, page => Url.Action("Wishlist", page))
+                            </div>
+                            <!-- /store bottom filter -->
+                        </div>
+                        <!-- /STORE -->
+                    </div>
+                    <!-- /row -->
+                }
+                else
+                {
+                    <div class="row">
+                        <h2 class="text-center">Wishlist is empty!</h2>
+                        <div class="col-md-2">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-sm btn-block ">Back to home</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

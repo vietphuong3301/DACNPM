@@ -1,0 +1,85 @@
+﻿@model DACNPM.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+
+}
+
+<div class="card mb-4 mt-5">
+    <div class="card-header">
+        <i class="fas fa-user me-1"></i>
+        <strong>@ViewBag.Title</strong>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-md-12 offset-1">
+                <div class="row g-3">
+
+                    <div class="col-md-5">
+                        <div class="form-group mb-3">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            @{
+                                var fullName = Model.FirstName + " " + Model.LastName;
+                            }
+                            <label for="FullName" class="control-label">Full Name</label>
+                            <input id="FullName" class="form-control" value="@fullName" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" type="text" class="form-control" readonly value="@Model.Password" />
+
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-secondary" asp-controller="Users" asp-action="Index">Show All</a>
+                            <a class="btn btn-danger float-end" asp-controller="Users" asp-action="Delete" asp-route-id="@Model.UserID">Delete</a>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group mb-3">
+                            @{
+                                var datetime = Model.CreatedAt.ToString();
+                            }
+                            <label asp-for="CreatedAt" class="control-label"></label>
+                            <input type="text" class="form-control" readonly value="@datetime" />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Phone" class="control-label"></label>
+                            <input asp-for="Phone" class="form-control" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="FullAddress" class="control-label"></label>
+                            <input asp-for="FullAddress" class="form-control" readonly />
+
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Role!.RoleName" class="control-label"></label>
+                            <input asp-for="Role!.RoleName" class="form-control" readonly />
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

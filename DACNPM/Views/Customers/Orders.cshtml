@@ -1,0 +1,101 @@
+﻿@model IEnumerable<DACNPM.Models.Order>
+@{
+    ViewData["Title"] = "Orders History";
+    List<OrderDetails> orderDetails = ViewBag.OrderDetails;
+
+}
+<div class="section mt-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="order-details">
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-danger"><strong><< Back to Home</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Index" class="btn btn-primary"><strong>My Account</strong></a>
+                            </div>
+                        </div>
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Customers" asp-action="Orders" class="btn btn-success"><strong>Purchased Orders</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Update" class="btn btn-primary"><strong>Change Info</strong></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8 offset-2">
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="row mt-5">
+                        @{
+                            if(Model.Count() > 0) { 
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Order</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td>@item.OrderID</td>
+                                                    <td>@item.FullName</td>
+                                                    <td>@orderDetails.Where(od => od.OrderID == item.OrderID).Sum(od => od.SubPrice).ToString("c")</td>
+                                                    @{
+                                                                                        
+                                                        if (item.Status == 0)
+                                                        {
+                                                            <td>Pending</td>
+                                                        }
+                                                        else if (item.Status == 1)
+                                                        {
+                                                            <td>Confirmed</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>Cancelled</td>
+                                                        }
+                                                                                        
+                                                    }
+                                                    <td><a asp-controller="Customers" asp-action="OrderDetail" asp-route-id="@item.OrderID" class="btn btn-success"><i class="fa fa-eye"></i></a></td>
+                                                </tr>
+                                            }
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            }else{
+                                 <h5 class="text-center">No orders history was found!</h5>
+                            }
+                        }
+                    </div>
+                    @*<div class="order-summary">
+                        <div></div>
+                    </div>*@
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+﻿
+@{ 
+    List<DACNPM.Data.CartItem> cart = ViewBag.Cart;
+}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <form asp-controller="ShoppingCart" asp-action="PlaceOrder" method="post">
+
+            <!-- row -->
+            <div class="row">
+                @{ 
+                    User userinfo = ViewBag.UserInfo;
+                }
+                <div class="col-md-6">
+                    <!-- Billing Details -->
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Order Detail</h3>
+                        </div>
+                        <input type="hidden" name="id" value="@userinfo.UserID" />
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input class="input" type="text" name="firstname" value="@userinfo.FirstName" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input class="input" type="text" name="lastname" value="@userinfo.LastName" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input class="input" type="email" name="email" value="@userinfo.Email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input class="input" type="text" name="address" value="@userinfo.FullAddress" placeholder="Address">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input class="input" type="tel" name="phone" value="@userinfo.Phone" placeholder="Telephone">
+                        </div>
+                    </div>
+                    <!-- /Billing Details -->
+                    <!-- Order notes -->
+                    <div class="order-notes">
+                        <label class="form-label">Note</label>
+                        <textarea class="input" name="note" placeholder="Order Notes"></textarea>
+                    </div>
+                    <!-- /Order notes -->
+                </div>
+
+                <!-- Order Details -->
+                <div class="col-md-6 order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">Your Order</h3>
+                    </div>
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div><strong>PRODUCT</strong></div>
+                            <div><strong>TOTAL</strong></div>
+                        </div>
+                        <div class="order-products">
+                            @{
+                                foreach (var item in cart)
+                                {
+                                    <div class="order-col">
+                                        <div>@item.Amount x @item.Product.ProductName</div>
+                                        <div>@item.totalPrice.ToString("c")</div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <div class="order-col">
+                            <div>Shiping</div>
+                            <div><strong>FREE</strong></div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">@cart.Sum(p => p.totalPrice).ToString("c")</strong></div>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-1">
+                            <label for="payment-1">
+                                <span></span>
+                                Direct Bank Transfer
+                            </label>
+                            <div class="caption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-2">
+                            <label for="payment-2">
+                                <span></span>
+                                Cheque Payment
+                            </label>
+                            <div class="caption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment" id="payment-3">
+                            <label for="payment-3">
+                                <span></span>
+                                Paypal System
+                            </label>
+                            <div class="caption">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">
+                            <span></span>
+                            I've read and accept the <a href="#">terms & conditions</a>
+                        </label>
+                    </div>
+                    <button class="primary-btn order-submit">Place order</button>
+                </div>
+                <!-- /Order Details -->
+            </div>
+            <!-- /row -->
+        </form>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->

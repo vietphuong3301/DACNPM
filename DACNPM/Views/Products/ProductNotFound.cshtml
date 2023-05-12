@@ -1,0 +1,45 @@
+﻿<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="breadcrumb-header">Empty Page</h3>
+                <ul class="breadcrumb-tree">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="active">Blank</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        @{
+            var data = ViewData["Keyword"] != null ? ViewData["Keyword"] : "";
+        }
+        <div class="row">
+            <h2 class="text-center">No product was found for "@data".</h2>
+        </div>
+        <div class="row mt-6 col-md-12">
+            <h4 class="text-center" style="font-weight:400">Please try with a properly keyword.</h4>
+            <div class="header-search text-center bg-black" >
+                <form asp-controller="Products" asp-action="Index" method="get">
+
+                    <input type="text" class="input" value="@data" placeholder="Search here" name="keyword">
+                    <button class="search-btn">Search</button>
+                </form>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->

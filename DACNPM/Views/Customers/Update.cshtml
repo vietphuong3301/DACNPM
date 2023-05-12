@@ -1,0 +1,113 @@
+﻿@model DACNPM.Models.User
+
+@{
+    ViewData["Title"] = "Update Profile";
+
+}
+<div class="section mt-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="order-details">
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-danger"><strong><< Back to Home</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Index" class="btn btn-primary"><strong>My Account</strong></a>
+                            </div>
+                        </div>
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Customers" asp-action="Orders" class="btn btn-success"><strong>Purchased Orders</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Update" class="btn btn-primary"><strong>Change Info</strong></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8 offset-2">
+                <form asp-controller="Customers" asp-action="Update" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserID" value="@Model.UserID" />
+                    <input type="hidden" asp-for="RoleID" value="@Model.RoleID" />
+                    <div class="order-details">
+                        <div class="section-title text-center">
+                            <h3 class="title">@ViewBag.Title</h3>
+                        </div>
+                        <div class="order-summary">
+                            <div class="order-col">
+                                <div><strong>First Name:</strong></div>
+                                <div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" asp-for="FirstName" />
+                                        <span asp-validation-for="FirstName" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="order-col">
+                                <div><strong>Last Name:</strong></div>
+                                <div>
+
+                                    <div class="form-group">
+                                    <input class="form-control" type="text" asp-for="LastName" />
+                                    <span asp-validation-for="LastName" class="text-danger mb-3"></span>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>Email Address:</strong></div>
+                                <div>
+
+                                    <div class="form-group">
+                                        <input class="form-control" type="email" asp-for="Email" />
+                                        <span asp-validation-for="Email" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>Phone:</strong></div>
+                                <div>
+
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" asp-for="Phone" />
+                                        <span asp-validation-for="Phone" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>Address:</strong></div>
+                                <div>
+
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" asp-for="FullAddress" />
+                                        <span asp-validation-for="FullAddress" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-col">
+                                <div><strong>Password:</strong></div>
+                                <div>
+
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" asp-for="Password" value="@Model.Password" />
+                                        <span asp-validation-for="Password" class="text-danger mb-3"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="primary-btn order-submit">Update Profile</button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

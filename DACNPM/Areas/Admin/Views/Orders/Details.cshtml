@@ -1,0 +1,89 @@
+﻿@model DACNPM.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+    List<OrderDetails> orderDetails = ViewBag.OrderDetails;
+}
+
+<div class="section mt-4">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Order: #@Model.OrderID</h4>
+            </div>
+            <div class="card-body mt-4">
+                <h2 class="mb-4">Invoice:</h2>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div><strong>@Model.FullName</strong></div>
+                        <div>@Model.Email</div>
+                        <div>@Model.Phone</div>
+                        <div>@Model.Address</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-5">Customer ID:</dt>
+                            <dd class="col-sm-5 text-end">@Model.UserID</dd>
+                        </dl>
+                        <dl class="row">
+                            <dt class="col-sm-5">Ordered Date:</dt>
+                            <dd class="col-sm-5 text-end">@Model.CreatedAt.ToString()</dd>
+                        </dl>
+                        <dl class="row">
+                            <dt class="col-sm-5">Note:</dt>
+                            <dd class="col-sm-5 text-end">@Model.Note</dd>
+                        </dl>
+                        <dl class="row">
+                            <dt class="col-sm-5">Status:</dt>
+                            @{
+                                if (Model.Status == 0)
+                                {
+
+                                    <dd class="col-sm-5 text-end text-uppercase">Pending</dd>
+                                }
+                                else if (Model.Status == 1)
+                                {
+                                    <dd class="col-sm-5 text-end text-uppercase">Confirmed</dd>
+                                }
+                                else
+                                {
+                                    <dd class="col-sm-5 text-end text-uppercase">Cancelled</dd>
+                                }
+                            }
+                        </dl>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Items</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in orderDetails)
+                                {
+                                    <tr>
+                                        <td>@item.Product!.ProductName</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Product!.Price.ToString("c")</td>
+                                        <td>@item.SubPrice.ToString("c")</td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                    <h4 class="text-end">Total: @orderDetails.Sum(od => od.SubPrice).ToString("c")</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

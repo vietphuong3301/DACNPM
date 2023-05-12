@@ -1,0 +1,94 @@
+﻿@model DACNPM.Models.User
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+            <div class="card-body">
+                <form asp-controller="Auth" asp-action="SignUp">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="RoleID" value="2" />
+                    <input type="hidden" asp-for="UserID" value="@ViewBag.UserID" />
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" asp-for="FirstName" type="text" />
+                                    <label asp-for="FirstName">First name</label>
+                                </div>
+                                <span asp-validation-for="FirstName" class="text-danger mb-3"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+
+                                <div class="form-floating">
+                                    <input class="form-control" asp-for="LastName" type="text" />
+                                    <label asp-for="LastName">Last name</label>
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger mb-3"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" asp-for="Email" type="email" />
+                                    <label asp-for="Email"></label>
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger mb-3"></span>
+                                <span class="text-danger mb-3">@TempData["ErrorMessage"]</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+
+                                <div class="form-floating">
+                                    <input class="form-control" asp-for="Phone" type="text" />
+                                    <label asp-for="Phone"></label>
+                                </div>
+                                <span asp-validation-for="Phone" class="text-danger mb-3"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+
+                                <div class="form-floating mb-md-0">
+                                    <input class="form-control" asp-for="Password" type="password" />
+                                    <label asp-for="Password"></label>
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger mb-3"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <div class="form-floating mb-md-0">
+                                    <input class="form-control" asp-for="FullAddress" type="text" />
+                                    <label asp-for="FullAddress">Address</label>
+                                </div>
+                                <span asp-validation-for="FullAddress" class="text-danger mb-3"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 mb-0">
+                        <input type="submit" value="Create Account" class="btn btn-primary form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3">
+                <div class="small"><p>Have an account? </p><a asp-controller="Auth" asp-action="Login" class="btn btn-secondary">Go to login</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

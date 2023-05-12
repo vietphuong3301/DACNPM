@@ -1,0 +1,87 @@
+﻿@model DACNPM.Models.Order
+
+@{
+    ViewData["Title"] = "Edit";
+    List<OrderDetails> orderDetails = ViewBag.OrderDetails;
+}
+
+<div class="section mt-4">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center">Order: #@Model.OrderID</h4>
+            </div>
+            <div class="card-body mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="card">
+                            <div class="card-body">
+
+                                <dl class="row">
+                                    <dt class="col-sm-6">Order No:</dt>
+                                    <dd class="col-sm-6">#@Model.OrderID</dd>
+
+                                    <dt class="col-sm-6">Customer ID:</dt>
+                                    <dd class="col-sm-6">@Model.UserID</dd>
+
+                                    <dt class="col-sm-6">Address:</dt>
+                                    <dd class="col-sm-6">
+                                        @Model.FullName <br />
+                                        @Model.Email <br />
+                                        @Model.Address <br />
+                                        @Model.Phone <br />
+                                    </dd>
+                                    <dt class="col-sm-6">Note:</dt>
+                                    <dd class="col-sm-6">@Model.Note</dd>
+
+                                    <dt class="col-sm-6">Ordered Date:</dt>
+                                    <dd class="col-sm-6">@Model.CreatedAt.ToString()</dd>
+
+                                    <dt class="col-sm-6">Total: </dt>
+                                    <dd class="col-sm-6">@orderDetails.Sum(od => od.SubPrice).ToString("c")</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <form asp-controller="Orders" asp-action="Edit" method="get">
+                            <input type="hidden" name="id" value="@Model.OrderID" />
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5>Status:</h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="status" class="form-control">
+                                                <option selected value="0">Pending</option>
+                                                <option value="1">Confirmed</option>
+                                                <option value="2">Cancelled</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <input type="submit" class="btn btn-primary" value="Update Status" />
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

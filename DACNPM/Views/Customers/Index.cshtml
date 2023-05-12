@@ -1,0 +1,67 @@
+﻿@model DACNPM.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+
+}
+<div class="section mt-5">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="order-details">
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-danger"><strong><< Back to Home</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Index" class="btn btn-primary"><strong>My Account</strong></a>
+                            </div>
+                        </div>
+                        <div class="order-col">
+                            <div>
+                                <a asp-controller="Customers" asp-action="Orders" class="btn btn-success"><strong>Purchased Orders</strong></a>
+                            </div>
+                            <div>
+                                <a asp-controller="Customers" asp-action="Update" class="btn btn-primary"><strong>Change Info</strong></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8 offset-2">
+                <div class="order-details">
+                    <div class="section-title text-center">
+                        <h3 class="title">My Profile</h3>
+                    </div>
+                    <div class="order-summary">
+                        <div class="order-col">
+                            <div><strong>First Name:</strong></div>
+                            <div>@Model.FirstName</div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>Last Name:</strong></div>
+                            <div>@Model.LastName</div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>Email Address:</strong></div>
+                            <div>@Model.Email</div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>Address:</strong></div>
+                            <div>@Model.FullAddress</div>
+                        </div>
+                        <div class="order-col">
+                            <div><strong>Phone:</strong></div>
+                            <div>@Model.Phone</div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
