@@ -29,7 +29,7 @@
                     <tfoot>
                         <tr>
                             @* <th class="text-center">Order No.</th>*@
-                            <th class="text-center">Order</th>
+                            <th class="text-center">FullName</th>
                             <th class="text-center">Date</th>
                             <th class="text-center">Total</th>
                             <th class="text-center">Status</th>
@@ -46,17 +46,22 @@
 
                                 <td class="align-middle">@orderDetails.Where(od => od.OrderID == item.OrderID).Sum(p => p.SubPrice).ToString("c")</td>
                                 @{
+                                    
                                     if (item.Status == 0)
-                                    {
-                                        <td class="align-middle text-uppercase">Pending</td>
-                                    }
-                                    else if (item.Status == 1)
                                     {
                                         <td class="align-middle text-uppercase">Confirmed</td>
                                     }
-                                    else
+                                    else if (item.Status == 1)
+                                    {
+                                        <td class="align-middle text-uppercase">Delivery</td>
+                                    }
+                                    else if(item.Status == 2)
                                     {
                                         <td class="align-middle text-uppercase">Cancelled</td>
+                                    }
+                                    else if(item.Status == 3)
+                                    {
+                                        <td class="align-middle text-uppercase">Complete</td>
                                     }
                                 }
 

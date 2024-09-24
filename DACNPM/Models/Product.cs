@@ -17,8 +17,15 @@ namespace DACNPM.Models
         [Display(Name = "Price")]
         public double Price { get; set; }
 
-        [Display(Name = "Image URL")]
-        public string ProductImageURL { get; set; }
+        [Display(Name = "Image")]
+        public string ProductImage { get; set; }
+        [Display(Name = "Image1")]
+        public string ProductImage1 { get; set; }
+        [Display(Name = "Image2")]
+        public string ProductImage2 { get; set; }
+        [Display(Name = "Image3")]
+        public string ProductImage3 { get; set; }
+
         public string Description { get; set; }
         public int Stock { get; set; }
 

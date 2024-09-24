@@ -82,10 +82,11 @@ namespace DACNPM.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
-        }
+        }      
+
 
         [HttpGet]
-        public async Task<IActionResult> Orders()
+        public async Task<IActionResult> Orders(int? page)
         {
             var session = HttpContext.Session.GetString("UserID");
          
@@ -94,9 +95,76 @@ namespace DACNPM.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             var orders = await _context.Orders.Where(o => o.UserID == session).ToListAsync();
+
+            int pageSize = 5;
+
+            int pageNumber = (page ?? 1);
+
+            var pagedOrders = await orders.ToPagedListAsync(pageNumber, pageSize);
+
             ViewBag.OrderDetails = await _context.OrderDetails.Include(od => od.Product).ToListAsync();
             
-            return View(orders);
+            return View(pagedOrders);
+        }
+        [HttpGet]
+        public async Task<IActionResult> CancelOrder(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Status = 2; // Assuming '2' is the status code for 'Cancelled'
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Orders));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Complete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Status = 3; // Assuming '3' is the status code for 'Complete'
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Orders));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delivery(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.Status = 1; // Assuming '1' is the status code for 'Delivery'
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Orders));
         }
 
         [HttpGet]

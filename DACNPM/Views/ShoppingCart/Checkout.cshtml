@@ -1,16 +1,15 @@
-﻿
-@{ 
+﻿@{
     List<DACNPM.Data.CartItem> cart = ViewBag.Cart;
 }
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
-        <form asp-controller="ShoppingCart" asp-action="PlaceOrder" method="post">
+        <form asp-controller="ShoppingCart" method="post">
 
             <!-- row -->
             <div class="row">
-                @{ 
+                @{
                     User userinfo = ViewBag.UserInfo;
                 }
                 <div class="col-md-6">
@@ -82,46 +81,13 @@
                             <div><strong class="order-total">@cart.Sum(p => p.totalPrice).ToString("c")</strong></div>
                         </div>
                     </div>
-                    <div class="payment-method">
-                        <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-1">
-                            <label for="payment-1">
-                                <span></span>
-                                Direct Bank Transfer
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                        <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-2">
-                            <label for="payment-2">
-                                <span></span>
-                                Cheque Payment
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                        <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-3">
-                            <label for="payment-3">
-                                <span></span>
-                                Paypal System
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
+                    <tr>
+                        <td><button class="primary-btn order-submit" asp-action="PlaceOrder">Place order</button></td>
+                    </tr>
+                    <div class="text-center">
+                        <div id="paypal-button-container"><button class="primary-btn order-submit" asp-action="PayWithPayPal">PayWithPayPal</button></div>
                     </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="terms">
-                        <label for="terms">
-                            <span></span>
-                            I've read and accept the <a href="#">terms & conditions</a>
-                        </label>
-                    </div>
-                    <button class="primary-btn order-submit">Place order</button>
+
                 </div>
                 <!-- /Order Details -->
             </div>
@@ -131,3 +97,7 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+@section Scripts {
+    @* Use ViewBag.ClientId to load PayPal Javascript SDK *@
+    <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientId"></script>
+}

@@ -36,7 +36,7 @@ namespace DACNPM.Controllers
 
         // GET: Products
         [HttpGet]
-        public async Task<IActionResult> Index(string? id,int? page, string? keyword, string? sortBy )
+        public async Task<IActionResult> Index(string? id,int? page, string? keyword, string? sortBy, double? minPrice, double? maxPrice)
         {
             int currentPage = page ?? 1;
             int pageSize = 9;
@@ -85,6 +85,15 @@ namespace DACNPM.Controllers
                         products = products.OrderBy(p => p.ProductName);
                         break;
                 }
+            }
+            // get products by price range
+            if (minPrice.HasValue && maxPrice.HasValue)
+            {
+                double min = Convert.ToDouble(minPrice.Value);
+                double max = Convert.ToDouble(maxPrice.Value);
+                products = products.Where(p => p.Price >= min && p.Price <= max)
+                    .Include(c => c.Category)
+                    .Include(t => t.ProductType);
             }
 
             return View(products.ToPagedList(currentPage, pageSize));

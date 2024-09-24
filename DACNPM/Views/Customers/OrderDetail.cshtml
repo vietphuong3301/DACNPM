@@ -39,18 +39,21 @@
                     <dl class="row">
                         <dt class="col-sm-5">Status:</dt>
                         @{
-                            if (Model.Status == 0)
-                            {
-
-                                <dd class="col-sm-5 text-end text-uppercase">Pending</dd>
-                            }
-                            else if (Model.Status == 1)
+                           if (Model.Status == 0)
                             {
                                 <dd class="col-sm-5 text-end text-uppercase">Confirmed</dd>
                             }
-                            else
+                            else if (Model.Status == 1)
+                            {
+                                <dd class="col-sm-5 text-end text-uppercase">Delivery</dd>
+                            }
+                            else if(Model.Status == 2)
                             {
                                 <dd class="col-sm-5 text-end text-uppercase">Cancelled</dd>
+                            }
+                            else if (Model.Status == 3)
+                            {
+                                <dd class="col-sm-5 text-end text-uppercase">Completed</dd>
                             }
                         }
                     </dl>

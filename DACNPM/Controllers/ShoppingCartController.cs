@@ -1,6 +1,8 @@
 ﻿using DACNPM.Data;
 using DACNPM.Models;
+using DACNPM.Services;
 using DACNPM.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +12,11 @@ namespace DACNPM.Controllers
 {
     public class ShoppingCartController : Controller
     {
+        private readonly PaypalClient _paypalClient;
         private readonly ApplicationDbcontext _context;
-        public ShoppingCartController(ApplicationDbcontext context)
+        public ShoppingCartController(ApplicationDbcontext context, PaypalClient paypalClient)
         {
+            _paypalClient = paypalClient;
             _context = context;
         }
 
@@ -21,7 +25,7 @@ namespace DACNPM.Controllers
             get
             {
                 var cart = HttpContext.Session.Get<List<CartItem>>("Cart");
-                if(cart == default(List<CartItem>))
+                if (cart == default(List<CartItem>))
                 {
                     cart = new List<CartItem>();
                 }
@@ -34,12 +38,12 @@ namespace DACNPM.Controllers
         }
 
         [HttpPost, HttpGet]
-        public  IActionResult AddtoCart(string id, int? amount)
+        public IActionResult AddtoCart(string id, int? amount)
         {
             List<CartItem> cart = Cart;
 
             CartItem item = cart.SingleOrDefault(p => p.Product.ProductID == id)!;
-            if(item != null)
+            if (item != null)
             {
                 foreach (var i in cart)
                 {
@@ -76,10 +80,10 @@ namespace DACNPM.Controllers
         public IActionResult UpdateItem(string[] products, int[] amounts)
         {
             List<CartItem> cart = Cart;
-            for(int i = 0; i < cart.Count; i++)
+            for (int i = 0; i < cart.Count; i++)
             {
                 var id = cart.SingleOrDefault(p => p.Product.ProductID == products[i])!.Product.ProductID;
-                if(id != null && products[i] == id)
+                if (id != null && products[i] == id)
                 {
                     cart.ElementAt(i).Amount = amounts[i];
                 }
@@ -111,9 +115,11 @@ namespace DACNPM.Controllers
 
         public async Task<IActionResult> Checkout()
         {
+            ViewBag.ClientId = _paypalClient.ClientId;
+
             var isUser = HttpContext.Session.GetString("UserID");
             List<CartItem> cart = Cart;
-            if(isUser == null)
+            if (isUser == null)
             {
                 return RedirectToAction("Login", "Auth");
             }
@@ -121,15 +127,16 @@ namespace DACNPM.Controllers
             var userInfo = await _context.Users.FindAsync(isUser);
             ViewBag.UserInfo = userInfo;
             ViewBag.Cart = cart;
+            ViewBag.PaypalClientId = _paypalClient.ClientId;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder(string id,string firstname, string lastname, string email, string phone, string address, string? note)
+        public async Task<IActionResult> PlaceOrder(string id, string firstname, string lastname, string email, string phone, string address, string? note)
         {
             List<CartItem> cart = Cart;
             Order order = new Order();
-            order.FullName = firstname +" "+ lastname;
+            order.FullName = firstname + " " + lastname;
             order.Address = address;
             order.Email = email;
             order.Note = note;
@@ -151,11 +158,56 @@ namespace DACNPM.Controllers
             HttpContext.Session.Remove("Cart");
             return RedirectToAction("OrderSuccess");
         }
+        [HttpPost]
+        public async Task<IActionResult> PayWithPayPal(string id, string firstname, string lastname, string email, string phone, string address, string? note)
+        {
+            var userID = HttpContext.Session.GetString("UserID");
+
+            List<CartItem> cart = Cart;
+            Order order = new Order();
+            order.FullName = firstname + " " + lastname;
+            order.Address = address;
+            order.Email = email;
+            order.Note = note;
+            order.UserID = userID; // Use the userID from the session
+            order.Phone = phone;
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            double totalAmount = 0;
+            foreach (var item in cart)
+            {
+                OrderDetails orderDetails = new OrderDetails();
+                orderDetails.OrderID = order.OrderID;
+                orderDetails.ProductID = item.Product.ProductID;
+                orderDetails.Quantity = item.Amount;
+                orderDetails.SubPrice = item.totalPrice;
+                _context.OrderDetails.Add(orderDetails);
+                totalAmount += item.totalPrice;
+            }
+            await _context.SaveChangesAsync();
+
+            // Create PayPal order
+            var createOrderResponse = await _paypalClient.CreateOrder(totalAmount.ToString(), "USD", order.OrderID.ToString());
+
+            if (createOrderResponse != null)
+            {
+                // Redirect to PayPal checkout page
+                var approveLink = createOrderResponse.links.FirstOrDefault(link => link.rel == "approve");
+                if (approveLink != null)
+                {
+                    return Redirect(approveLink.href);
+                }
+            }
+
+            HttpContext.Session.Remove("Cart");
+            return RedirectToAction("OrderSuccess");
+        }
 
         public async Task<IActionResult> OrderSuccess()
         {
             var userid = HttpContext.Session.GetString("UserID");
-            if(userid == null)
+            if (userid == null)
             {
                 return RedirectToAction("Login", "Auth");
             }
@@ -163,9 +215,6 @@ namespace DACNPM.Controllers
             var orderdetails = await _context.OrderDetails.Where(od => od.OrderID == order.OrderID).Include(od => od.Product).ToListAsync();
             ViewBag.OrderDetails = orderdetails;
             return View(order);
-        }
-        
-
-
+        }    
     }
 }

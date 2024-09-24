@@ -18,7 +18,7 @@
                 <ul class="breadcrumb-tree">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-action="Index" asp-route-id="@Model.TypeID">@Model.ProductType!.Type</a></li>
-                    <li class="active">@Model.ProductName</li>
+                    <li class="active"><i><b>@Model.ProductName</b></i></li>
                 </ul>
             </div>
         </div>
@@ -34,12 +34,38 @@
         <!-- row -->
         <div class="row">
             <!-- Product main img -->
-            <div class="col-md-5">
-                @*<div class="col-md-5 col-md-push-2">*@
+            
+                <div class="col-md-5 col-md-push-2">
 
                 <div id="product-main-img">
                     <div class="product-preview">
-                        <img src="@Model.ProductImageURL" alt="">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage)" alt="@Model.ProductName" >
+                    </div>
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage1)" alt="@Model.ProductName" >
+                    </div>
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage2)" alt="@Model.ProductName">
+                    </div>
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage3)" alt="@Model.ProductName">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage)" alt="@Model.ProductName">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage1)" alt="@Model.ProductName">
+                    </div>
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage2)" alt="@Model.ProductName">
+                    </div>
+                    <div class="product-preview">
+                        <img src="@Url.Content("~/img/" + Model.ProductImage3)" alt="@Model.ProductName">
                     </div>
                 </div>
             </div>
@@ -100,7 +126,7 @@
                             <li><a asp-controller="Products" asp-action="AddtoWishlist" asp-route-id="@Model.ProductID"><i class="fa fa-heart-o"></i> @message</a></li>
                         </ul>
                     }
-
+                    
                     <ul class="product-links">
                         <li>Category:</li>
                         <li><a asp-action="Index" asp-route-id="@Model.CategoryID">@Model.Category!.CategoryName</a></li>
@@ -173,11 +199,11 @@
                                         <!-- product -->
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                                <img src="@Url.Content("~/img/" + item.ProductImage)" alt="@item.ProductName" style="height:50px;width:100px;">
                                                 <!--<div class="product-label">-->
                                                 @*<span class="sale">-30%</span>*@
                                                 <!--<span class="new">BEST SELLER</span>
-                                                </div>-->
+                                                </div>-->c
                                             </div>
                                             <div class="product-body">
                                                 <p class="product-category">@item.Category!.CategoryName</p>

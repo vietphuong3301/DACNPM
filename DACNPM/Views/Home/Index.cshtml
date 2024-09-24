@@ -7,6 +7,7 @@
 
     var wishlist = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("WishList");
 }
+
 <!-- NAVIGATION -->
 <nav id="navigation">
     <!-- container -->
@@ -27,7 +28,7 @@
                     if (roleid == 1) //Kiem tra xe co phai Admin k
                     {
 
-                        <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">ADMIN</a></li>
+                        <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">ADMIN</a></li>
                     }
                 }
 
@@ -56,7 +57,9 @@
                     <div class="col-md-4 col-xs-6">
                         <div class="shop">
                             <div class="shop-img">
-                                <img src="@img" alt="">
+                            <div>
+                                <img src="@img" alt="" style="height: 250px;">
+                            </div>
                             </div>
                             <div class="shop-body">
                                 <h3>@item.Type<br>Collection</h3>
@@ -83,7 +86,7 @@
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
-                    <h3 class="title">New Products</h3>
+                    <h3 class="title">LAPTOP</h3>
                 </div>
             </div>
             <!-- /section title -->
@@ -97,7 +100,7 @@
                                 @{
                                     foreach (var item in Model)
                                     {
-                                        if (item.Category!.CategoryName == "NEW")
+                                        if (item.Category!.CategoryName == "LAPTOP")
                                         {
                                             var message = "Add to Wishlist";
                                             if (wishlist != null)
@@ -111,10 +114,10 @@
                                             <!-- product -->
                                             <div class="product">
                                                 <div class="product-img">
-                                                    <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                                    <img src="@Url.Content("~/img/" + item.ProductImage)" alt="@item.ProductName" style=" max-height: 180px; object-fit: contain;">
                                                     <div class="product-label">
                                                         @*<span class="sale">-30%</span>*@
-                                                        <span class="new">NEW</span>
+                                                        <span class="new">LAPTOP</span>
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
@@ -168,7 +171,7 @@
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
-                    <h3 class="title">Top selling</h3>
+                    <h3 class="title">ACCESSORY</h3>
                 </div>
             </div>
             <!-- /section title -->
@@ -182,7 +185,7 @@
                                 @{
                                     foreach (var item in Model)
                                     {
-                                        if (item.Category!.CategoryName == "BEST SELLING")
+                                        if (item.Category!.CategoryName == "ACCESSORY")
                                         {
                                             var message = "Add to Wishlist";
                                             if (wishlist != null)
@@ -196,10 +199,10 @@
                                             <!-- product -->
                                             <div class="product">
                                                 <div class="product-img">
-                                                    <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                                    <img src="@Url.Content("~/img/" + item.ProductImage)" alt="@item.ProductName" style="max-height: 170px;object-fit:contain">
                                                     <div class="product-label">
                                                         @*<span class="sale">-30%</span>*@
-                                                        <span class="sale">BEST SELLING</span>
+                                                        <span class="sale">ACCESSORY</span>
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
@@ -242,3 +245,19 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = URL.createObjectURL($("#ProductImage0].files[0]);
+        })
+        $("#ProductImage").on("change", function () {
+            var output = document.getElementById('ProductImagePreview');
+            output.src = URL.createObjectURL(this.files[0]);
+        })
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

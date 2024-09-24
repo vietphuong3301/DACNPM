@@ -5,18 +5,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DACNPM.Migrations
 {
-    /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    CategoryName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true)
+                    CategoryID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CategoryName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,8 +25,8 @@ namespace DACNPM.Migrations
                 name: "ProductType",
                 columns: table => new
                 {
-                    TypeID = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    Type = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true)
+                    TypeID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,9 +37,9 @@ namespace DACNPM.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    RoleID = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    RoleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
+                    RoleID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,15 +50,15 @@ namespace DACNPM.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductID = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    ProductName = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<double>(type: "REAL", nullable: false),
-                    ProductImageURL = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Stock = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    TypeID = table.Column<string>(type: "TEXT", nullable: true),
-                    CategoryID = table.Column<string>(type: "TEXT", nullable: true)
+                    ProductID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    ProductImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Stock = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TypeID = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    CategoryID = table.Column<string>(type: "nvarchar(20)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,15 +79,15 @@ namespace DACNPM.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Password = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Phone = table.Column<string>(type: "TEXT", nullable: true),
-                    FullAddress = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    RoleID = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoleID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,16 +104,16 @@ namespace DACNPM.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    FullName = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Phone = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    Note = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", maxLength: 1, nullable: false),
-                    UserID = table.Column<string>(type: "TEXT", nullable: true)
+                    OrderID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", maxLength: 1, nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(20)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -131,12 +129,12 @@ namespace DACNPM.Migrations
                 name: "OrderDetails",
                 columns: table => new
                 {
-                    OrderDetailID = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    SubPrice = table.Column<double>(type: "REAL", nullable: false),
-                    ProductID = table.Column<string>(type: "TEXT", nullable: true),
-                    OrderID = table.Column<int>(type: "INTEGER", nullable: false)
+                    OrderDetailID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    SubPrice = table.Column<double>(type: "float", nullable: false),
+                    ProductID = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    OrderID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -185,7 +183,6 @@ namespace DACNPM.Migrations
                 column: "RoleID");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

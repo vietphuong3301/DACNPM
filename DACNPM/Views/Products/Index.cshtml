@@ -4,7 +4,7 @@
 @using DACNPM.Data
 @using DACNPM.Utils
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-@{ 
+@{
     var wishlist = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("WishList");
 }
 <!-- SECTION -->
@@ -70,11 +70,23 @@
                                 }
                             </div>
                         }
-
+    
                     </div>
                 </div>
+                <div class="aside">
+                    <h3 class="aside-title">Price Range</h3>
+                    <div class="price-filter">
+                        <div>
+                            <input type="number" id="min-price" placeholder="Min price" />
+                            <input type="number" id="max-price" placeholder="Max price" />
+                            <button id="price-filter-btn">Filter</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- /aside Widget -->
             </div>
+
             <!-- /ASIDE -->
             <!-- STORE -->
             <div id="store" class="col-md-9">
@@ -88,7 +100,8 @@
                     @foreach (var item in Model)
                     {
                         var message = "Add to Wishlist";
-                        if(wishlist!= null) { 
+                        if (wishlist != null)
+                        {
 
                             var check = wishlist.SingleOrDefault(p => p.ProductID == item.ProductID);
                             if (check != null)
@@ -96,10 +109,10 @@
                                 message = "Remove from Wishlist";
                             }
                         }
-                        <div class="col-md-4 col-xs-6">
+                        <div class="col-md-5 col-xs-5 ">
                             <div class="product">
                                 <div class="product-img">
-                                    <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                    <img src="@Url.Content("~/img/" + item.ProductImage)" alt="@item.ProductName" style=" max-height: 200px; object-fit: contain;">
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">@item.Category!.CategoryName</p>
@@ -134,3 +147,14 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+<script>
+    document.getElementById('price-filter-btn').addEventListener('click', function () {
+        var minPrice = document.getElementById('min-price').value;
+        var maxPrice = document.getElementById('max-price').value;
+        console.log('Min price: ' + minPrice + ', Max price: ' + maxPrice);
+        var url = new URL(window.location.href);
+        url.searchParams.set('minPrice', minPrice);
+        url.searchParams.set('maxPrice', maxPrice);
+        window.location.href = url;
+    });
+</script>

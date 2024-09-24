@@ -19,7 +19,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">@Html.DisplayNameFor(model => model.ProductName)</th>
-                            <th class="text-center">@Html.DisplayNameFor(model => model.ProductImageURL)</th>
+                            <th class="text-center">@Html.DisplayNameFor(model => model.ProductImage)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.Price)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.Stock)</th>
                             <th class="text-center">Actions</th>
@@ -28,7 +28,7 @@
                     <tfoot>
                         <tr>
                             <th class="text-center">@Html.DisplayNameFor(model => model.ProductName)</th>
-                            <th class="text-center">@Html.DisplayNameFor(model => model.ProductImageURL)</th>
+                            <th class="text-center">@Html.DisplayNameFor(model => model.ProductImage)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.Price)</th>
                             <th class="text-center">@Html.DisplayNameFor(model => model.Stock)</th>
                             <th class="text-center">Actions</th>
@@ -41,7 +41,8 @@
                             <tr class="text-center">
                                 <td class="align-middle">@Html.DisplayFor(model => item.ProductName)</td>
                                 <td class="align-middle">
-                                    <img src="@Html.DisplayFor(model => item.ProductImageURL)"
+                                   
+                                    <img src="@Url.Content("~/img/" + item.ProductImage)"
                                          alt="@Html.DisplayFor(model => item.ProductName)" style="max-width:60px" />
                                 </td>
                                 <td class="align-middle">$@Html.DisplayFor(model => item.Price)</td>

@@ -33,7 +33,8 @@
 
                                                 <tr>
                                                     <td class="product-thumbnail">
-                                                        <img src="@item.Product.ProductImageURL" alt="Image" class="img-fluid" style="max-width: 60px;">
+                                                        <img src="@Url.Content("~/img/" + item.Product.ProductImage)"
+                                                             alt="@Html.DisplayFor(model => item.Product.ProductName)" style="max-width:60px" />
                                                     </td>
                                                     <td class="product-name">
                                                         <h2 class="h5 text-black">@item.Product.ProductName</h2>
@@ -102,9 +103,9 @@
     <script>
         $(document).ready(function () {
             var output = document.getElementById('ProductImagePreview');
-            output.src = $("#ProductImageURL").val();
+            output.src = $("#ProductImage").val();
         })
-        $("#ProductImageURL").on("change", function () {
+        $("#ProductImage").on("change", function () {
             var output = document.getElementById('ProductImagePreview');
             output.src = $(this).val();
         })

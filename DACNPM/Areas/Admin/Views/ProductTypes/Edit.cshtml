@@ -14,7 +14,7 @@
 
                 <div class="row">
                     <div class="col-md-12 offset-1">
-                        <form asp-controller="ProductTypes" asp-action="Create" class="row g-3">
+                        <form asp-controller="ProductTypes" asp-action="Edit" class="row g-3">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="TypeID" value="@Model.TypeID" />
 
@@ -27,7 +27,7 @@
 
                                 <div class="form-group">
                                     <a class="btn btn-secondary" asp-controller="ProductTypes" asp-action="Index">Show All</a>
-                                    <input type="submit" value="Create" class="btn btn-success float-end" />
+                                    <input type="submit" value="Update" class="btn btn-success float-end" />
                                 </div>
 
 

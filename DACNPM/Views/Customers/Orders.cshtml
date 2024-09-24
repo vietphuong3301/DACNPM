@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DACNPM.Models.Order>
+﻿@model X.PagedList.IPagedList<DACNPM.Models.Order>
+@using X.PagedList.Mvc.Core;
 @{
     ViewData["Title"] = "Orders History";
     List<OrderDetails> orderDetails = ViewBag.OrderDetails;
@@ -60,29 +61,49 @@
                                                     <td>@item.FullName</td>
                                                     <td>@orderDetails.Where(od => od.OrderID == item.OrderID).Sum(od => od.SubPrice).ToString("c")</td>
                                                     @{
-                                                                                        
+                                                                                                                                               
                                                         if (item.Status == 0)
-                                                        {
-                                                            <td>Pending</td>
-                                                        }
-                                                        else if (item.Status == 1)
                                                         {
                                                             <td>Confirmed</td>
                                                         }
-                                                        else
+                                                        else if (item.Status == 1)
+                                                        {
+                                                            <td>Delivery</td>
+                                                        }
+                                                        else if (item.Status == 2)
                                                         {
                                                             <td>Cancelled</td>
                                                         }
+                                                        else if (item.Status == 3)
+                                                        {
+                                                            <td>Complete</td>
+                                                        }
                                                                                         
                                                     }
-                                                    <td><a asp-controller="Customers" asp-action="OrderDetail" asp-route-id="@item.OrderID" class="btn btn-success"><i class="fa fa-eye"></i></a></td>
+                                                    <td>
+                                                        <a asp-controller="Customers" asp-action="OrderDetail" asp-route-id="@item.OrderID" class="btn btn-warning"><i class="fa fa-eye"></i></a>
+                                                        @if(item.Status == 0)
+                                                        {
+                                                            <a asp-controller="Customers" asp-action="CancelOrder" asp-route-id="@item.OrderID" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="false"></i></a>
+                                                        }
+                                                        @if (item.Status == 1)
+                                                        {
+                                                            <a asp-controller="Customers" asp-action="Complete" asp-route-id="@item.OrderID" class="btn btn-success"><i class="fa fa-check-circle-o" aria-hidden="true"></i></a>
+                                                        }
+                                                        @if(item.Status == 2)
+                                                        {
+                                                            <a asp-controller="Customers" asp-action="CancelOrder" asp-route-id="@item.OrderID" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="false"></i></a>
+                                                        }
+                                                                                                                                                                  
+                                                    </td>
                                                 </tr>
                                             }
                                         }
-
-
                                     </tbody>
                                 </table>
+                                <div class="pagination">
+                                    @Html.PagedListPager(Model, page => Url.Action("Orders", new { page }))
+                                </div>
                             }else{
                                  <h5 class="text-center">No orders history was found!</h5>
                             }

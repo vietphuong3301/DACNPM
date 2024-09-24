@@ -62,7 +62,8 @@
                                     {
 
                                         <tr>
-                                            <td><img src="@item.Product!.ProductImageURL" alt="Image" class="img-fluid" style="max-width: 60px;"></td>
+                                            <img src="@Url.Content("~/img/" + item.Product.ProductImage)"
+                                                 alt="@Html.DisplayFor(model => item.Product.ProductName)" style="max-width:60px" />>
                                             <td>@item.Product!.ProductName</td>
                                             <td>@item.Quantity</td>
                                             <td>@item.SubPrice.ToString("c")</td>
@@ -83,9 +84,9 @@
     <script>
         $(document).ready(function () {
             var output = document.getElementById('ProductImagePreview');
-            output.src = $("#ProductImageURL").val();
+            output.src = $("#ProductImage").val();
         })
-        $("#ProductImageURL").on("change", function () {
+        $("#ProductImage").on("change", function () {
             var output = document.getElementById('ProductImagePreview');
             output.src = $(this).val();
         })

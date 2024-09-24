@@ -49,7 +49,7 @@
                                     <div class="col-md-3 col-xs-4">
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src="@item.ProductImageURL" alt="@item.ProductName">
+                                                <img src="@Url.Content("~/img/" + item.ProductImage)" alt="@item.ProductName">
                                             </div>
                                             <div class="product-body">
                                                 <p class="product-category">@item.Category!.CategoryName</p>
@@ -60,7 +60,7 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <a class="add-to-cart-btn" asp-controller="ShoppingCart" asp-action="AddtoCart" asp-route-id="@item.ProductID"><i class="fa fa-shopping-cart"></i> add to cart</a>
+                                                 <a class="add-to-cart-btn" asp-controller="ShoppingCart" asp-action="AddtoCart" asp-route-id="@item.ProductID"><i class="fa fa-shopping-cart"></i> add to cart</a>
                                             </div>
                                         </div>
                                     </div>

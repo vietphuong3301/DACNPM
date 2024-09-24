@@ -73,7 +73,7 @@ namespace DACNPM.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductID,ProductName,Price, Stock,ProductImageURL,Description,CreatedAt,CategoryID, TypeID")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductID,ProductName,Price, Stock,ProductImage,ProductImage1,ProductImage2,ProductImage3,Description,CreatedAt,CategoryID, TypeID")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace DACNPM.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ProductID,ProductName,Price, Stock,ProductImageURL,Description,CreatedAt,CategoryID, TypeID")] Product product)
+        public async Task<IActionResult> Edit(string id, [Bind("ProductID,ProductName,Price, Stock,ProductImage,ProductImage1,ProductImage2,ProductImage3,Description,CreatedAt,CategoryID, TypeID")] Product product)
         {
             if (id != product.ProductID)
             {
